@@ -9,5 +9,6 @@ namespace api.Models
         public int SubscriptionId { get; set; }
         [ForeignKey("SubscriptionId")]
         public virtual Subscription Subscription { get; set; }
+        public string DateSubscribed { get; set; }
     }
 }
