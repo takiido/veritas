@@ -22,6 +22,7 @@ var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 {
     var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+    var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
 
     string[] roles = ["User", "Manager", "Admin"];
 
@@ -29,6 +30,28 @@ using (var scope = app.Services.CreateScope())
     {
         if (!(await roleManager.RoleExistsAsync(role)))
             await roleManager.CreateAsync(new IdentityRole(role));
+    }
+
+    var hasher = new PasswordHasher<ApplicationUser>();
+
+    if (userManager.FindByEmailAsync("admin@admin.com").Result == null)
+    {
+        ApplicationUser powerUser = new ApplicationUser
+        {
+            UserName = "admin@admin.com",
+            Email = "admin@admin.com",
+            NormalizedEmail = "ADMIN@ADMIN.COM",
+            NormalizedUserName = "ADMIN@ADMIN.COM",
+            EmailConfirmed = true,
+            PasswordHash = hasher.HashPassword(null, "adminpassword1234@"),
+            SecurityStamp = String.Empty,
+            SubscriptionId = 1,
+            DateSubscribed = DateTime.Now
+        };
+        var createPowerUser = await userManager.CreateAsync (powerUser);
+
+        if (createPowerUser.Succeeded)
+            await userManager.AddToRoleAsync(powerUser, "Admin");
     }
 }
 

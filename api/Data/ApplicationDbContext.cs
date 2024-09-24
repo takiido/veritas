@@ -1,4 +1,5 @@
 ﻿using api.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -19,9 +20,10 @@ namespace api.Data
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
+            
             builder.Entity<Subscription>().HasData(
                 new Subscription() { Id = 1, Name = "Free", Description = "Default free subscription", Price = 0 }
-                );
+            );
         }
     }
 }
