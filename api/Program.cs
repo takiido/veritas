@@ -24,6 +24,7 @@ using (var scope = app.Services.CreateScope())
     var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
     var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
 
+    // Creating user roles
     string[] roles = ["User", "Manager", "Admin"];
 
     foreach (string role in roles)
@@ -32,6 +33,7 @@ using (var scope = app.Services.CreateScope())
             await roleManager.CreateAsync(new IdentityRole(role));
     }
 
+    // Creating admin user
     var hasher = new PasswordHasher<ApplicationUser>();
 
     if (userManager.FindByEmailAsync("admin@admin.com").Result == null)
