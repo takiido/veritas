@@ -11,7 +11,7 @@ namespace api.Models
         public int WordId { get; set; }
         [ForeignKey("WordId")]
         public virtual Word Word { get; set; }
-        public string DateAdded {  get; set; }
-        public string DateLastRead { get; set; }
+        public DateTime DateAdded {  get; set; }
+        public DateTime DateLastRead { get; set; }
     }
 }
