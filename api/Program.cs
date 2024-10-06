@@ -18,11 +18,17 @@ builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.R
 
 builder.Services.AddControllersWithViews();
 
-builder.Services.AddAuthentication().AddGoogle(googleOptions =>
-{
-    googleOptions.ClientId = configuration["Authentication:Google:ClientId"];
-    googleOptions.ClientSecret = configuration["Authentication:Google:ClientSecret"];
-});
+builder.Services.AddAuthentication()
+    .AddGoogle(googleOptions =>
+    {
+        googleOptions.ClientId = configuration["Authentication:Google:ClientId"];
+        googleOptions.ClientSecret = configuration["Authentication:Google:ClientSecret"];
+    })
+    .AddMicrosoftAccount(microsoftOptions =>
+    {
+        microsoftOptions.ClientId = configuration["Authentication:Microsoft:ClientId"];
+        microsoftOptions.ClientSecret = configuration["Authentication:Microsoft:ClientSecret"];
+    });
 
 var app = builder.Build();
 
